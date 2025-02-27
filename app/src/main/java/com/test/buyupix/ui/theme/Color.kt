@@ -2,6 +2,11 @@ package com.test.buyupix.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Black5 = Color(0xFF1A1B1E)
+val White100 = Color(0xFFfafbfc)
+val Gray50 = Color(0xFF787E8A)
+val Gray10 = Color(0xFFedeff3)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
