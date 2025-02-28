@@ -1,10 +1,10 @@
 package com.test.buyupix.domain.usecase
 
+import LanguageRepository
 import com.test.buyupix.domain.model.Language
-import com.test.buyupix.data.repository.LanguageRepository
 
-class GetDefaultLanguageUseCase(private val languageRepository: LanguageRepository) {
+class GetDefaultLanguageUseCase {
     operator fun invoke(): Language? {
-        return languageRepository.getLanguageByCode("BY")
+        return LanguageRepository.BY.toDomainModel()
     }
 }

@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.test.buyupix.R
+import com.test.buyupix.domain.formatter.PhoneNumberFormatterFactory
 import com.test.buyupix.presentation.util.LanguageBox
-import com.test.buyupix.presentation.util.PhoneNumberFormatter
 import com.test.buyupix.presentation.viewmodel.LoginViewModel
 import com.test.buyupix.ui.theme.Black5
 import com.test.buyupix.ui.theme.Gray10
@@ -79,7 +79,8 @@ fun LoginScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 36.dp)) {
+                .padding(top = 36.dp)
+        ) {
 
             LanguageBox(selectedLanguage)
 
@@ -87,28 +88,21 @@ fun LoginScreen(
             BasicTextField(
                 value = inputText,
                 onValueChange = { newText ->
-                    val maxLength = when (selectedLanguage?.code) {
-                        "BY" -> 14
-                        "RU" -> 15
-                        "US" -> 15
-                        else -> 20 //just in case
-                    }
+                    val maxLength = selectedLanguage?.maxLengthNoCode ?: 20
 
                     if (newText.text.length <= maxLength) {
                         inputNumber = newText.text.filter { it.isDigit() }
 
-                        val formattedInputNumber = when (selectedLanguage?.code) {
-                            "BY" -> PhoneNumberFormatter.formatBelarusianNumber(inputNumber)
-                            "RU" -> PhoneNumberFormatter.formatRussianNumber(inputNumber)
-                            "US" -> PhoneNumberFormatter.formatUSNumber(inputNumber)
-                            else -> inputNumber
-                        }
+                        val formater = PhoneNumberFormatterFactory.createFormatter(
+                            selectedLanguage?.code ?: "BY"
+                        )
+                        val formattedInputNumber = formater.format(inputNumber)
                         inputText = TextFieldValue(
                             text = formattedInputNumber,
                             selection = TextRange(formattedInputNumber.length)
                         )
                     }
-                                },
+                },
                 textStyle = TextStyle(
                     fontSize = 16.sp,
                     fontFamily = robotoFamily,
