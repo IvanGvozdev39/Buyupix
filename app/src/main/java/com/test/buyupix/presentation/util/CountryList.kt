@@ -1,6 +1,6 @@
 package com.test.buyupix.presentation.util
 
-import com.test.buyupix.data.repository.CountryRepository
+import com.test.buyupix.data.repository.CountryEnum
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -19,7 +19,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun CountryList() {
-    val languages = remember { CountryRepository.entries.toList() }
+    val countries = remember { CountryEnum.entries.toList() }
 
     val offsetY = useSlideInAnimation(initialOffset = -200f)
 
@@ -31,8 +31,9 @@ fun CountryList() {
             .border(1.dp, Gray90, shape = RoundedCornerShape(10.dp))
 
     ) {
-        items(languages) { language ->
-            CountryItem(country = language.toDomainModel())
+        items(countries,
+            key = { country -> country.toDomainModel().code }) { country ->
+            CountryItem(country = country.toDomainModel())
         }
     }
 }

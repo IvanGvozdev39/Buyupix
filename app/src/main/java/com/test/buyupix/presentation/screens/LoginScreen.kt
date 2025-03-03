@@ -19,6 +19,6 @@ fun LoginScreen(
     when(currentStep) {
         LoginStage.ENTER_PHONE -> EnterPhoneSection()
         LoginStage.SELECT_COUNTRY -> SelectCountrySection()
-        else -> LoginStage.ENTER_PHONE
+        LoginStage.CONFIRM_CODE -> TODO()
     }
 }
