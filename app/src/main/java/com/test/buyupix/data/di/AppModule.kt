@@ -1,7 +1,7 @@
 package com.test.buyupix.data.di
 
-import com.test.buyupix.domain.usecase.GetCurrentLanguageUseCase
-import com.test.buyupix.domain.usecase.GetDefaultLanguageUseCase
+import com.test.buyupix.domain.usecase.GetCountryByCodeUseCase
+import com.test.buyupix.domain.usecase.GetDefaultCountryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,13 +14,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGetCurrentLanguageUseCase(): GetCurrentLanguageUseCase {
-        return GetCurrentLanguageUseCase()
+    fun provideGetCurrentLanguageUseCase(): GetCountryByCodeUseCase {
+        return GetCountryByCodeUseCase()
     }
 
     @Provides
     @Singleton
-    fun provideGetDefaultLanguageUseCase(): GetDefaultLanguageUseCase {
-        return GetDefaultLanguageUseCase()
+    fun provideGetDefaultLanguageUseCase(): GetDefaultCountryUseCase {
+        return GetDefaultCountryUseCase()
     }
+
 }
