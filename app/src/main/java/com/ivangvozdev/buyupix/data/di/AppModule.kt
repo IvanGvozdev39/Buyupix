@@ -5,7 +5,6 @@ import com.ivangvozdev.buyupix.domain.formatter.PhoneNumberFormatterFactory
 import com.ivangvozdev.buyupix.domain.usecase.FormatPhoneNumberUseCase
 import com.ivangvozdev.buyupix.domain.usecase.GetCountryByCodeUseCase
 import com.ivangvozdev.buyupix.domain.usecase.GetDefaultCountryUseCase
-import com.ivangvozdev.buyupix.domain.usecase.SendVerificationCodeUseCase
 import com.ivangvozdev.buyupix.domain.usecase.VerifyCodeUseCase
 import dagger.Module
 import dagger.Provides
@@ -39,12 +38,6 @@ object AppModule {
     @Singleton
     fun providePhoneNumberFormatterFactory(): PhoneNumberFormatterFactory {
         return PhoneNumberFormatterFactory
-    }
-
-    @Provides
-    @Singleton
-    fun provideSendVerificationCodeUseCase(auth: FirebaseAuth): SendVerificationCodeUseCase {
-        return SendVerificationCodeUseCase(auth)
     }
 
     @Provides

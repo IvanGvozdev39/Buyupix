@@ -3,26 +3,31 @@ package com.ivangvozdev.buyupix.presentation.viewmodel
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
 import com.ivangvozdev.buyupix.domain.enumeration.LoginStage
 import com.ivangvozdev.buyupix.domain.model.Country
 import com.ivangvozdev.buyupix.domain.usecase.FormatPhoneNumberUseCase
 import com.ivangvozdev.buyupix.domain.usecase.GetCountryByCodeUseCase
 import com.ivangvozdev.buyupix.domain.usecase.GetDefaultCountryUseCase
-import com.ivangvozdev.buyupix.domain.usecase.SendVerificationCodeUseCase
 import com.ivangvozdev.buyupix.domain.usecase.VerifyCodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val getCountryByCodeUseCase: GetCountryByCodeUseCase,
     getDefaultCountryUseCase: GetDefaultCountryUseCase,
-    private val sendVerificationCodeUseCase: SendVerificationCodeUseCase,
     private val verifyCodeUseCase: VerifyCodeUseCase,
-    private val formatPhoneNumberUseCase: FormatPhoneNumberUseCase
+    private val formatPhoneNumberUseCase: FormatPhoneNumberUseCase,
+    private val auth: FirebaseAuth
 ) : ViewModel() {
 
     private val _currentStep = MutableStateFlow(LoginStage.ENTER_PHONE)
@@ -84,20 +89,26 @@ class LoginViewModel @Inject constructor(
 
     fun sendVerificationCode(phoneNumber: String, activity: ComponentActivity) {
         moveToConfirmCode()
+        val options = PhoneAuthOptions.newBuilder(auth)
+            .setPhoneNumber(phoneNumber)
+            .setTimeout(60L, TimeUnit.SECONDS)
+            .setActivity(activity)
+            .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                    onVerificationCompleted(credential)
+                }
 
-        sendVerificationCodeUseCase(
-            phoneNumber = phoneNumber,
-            activity = activity,
-            onVerificationCompleted = {
-            },
-            onVerificationFailed = { exception ->
-                moveToEnterPhone()
-                triggerFailedValidationToast(exception.message ?: "Verification failed")
-            },
-            onCodeSent = { verificationId, _ ->
-                this.verificationId = verificationId
-            }
-        )
+                override fun onVerificationFailed(e: FirebaseException) {
+                    moveToEnterPhone()
+                    triggerFailedValidationToast(e.message ?: "Verification failed")
+                }
+
+                override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                    this@LoginViewModel.verificationId = verificationId
+                }
+            })
+            .build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
     fun verifyCode(code: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
