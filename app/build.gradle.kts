@@ -3,14 +3,15 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.test.buyupix"
+    namespace = "com.ivangvozdev.buyupix"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.test.buyupix"
+        applicationId = "com.ivangvozdev.buyupix"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -52,10 +53,16 @@ android {
 }
 
 dependencies {
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.core.splashscreen)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.integrity)
+    implementation(libs.google.firebase.appcheck.playintegrity)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
