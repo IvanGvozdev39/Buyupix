@@ -7,10 +7,15 @@
     <string name="belarus">Belarus</string>
     <string name="russia">Russia</string>
     <string name="usa">USA</string>
+    <string name="continue_btn">Continue</string>
+    <string name="verification_failed">Verification failed: </string>
+    <string name="toast_alpha_anim">Toast alpha animation</string>
 
     <string name="flag">flag</string>
     <string name="arrow_left">arrow left</string>
     <string name="flag_of">flag of</string>
     <string name="check_icon">check icon</string>
+    <string name="shimmer_button_trans_anim">shimmer button translation animation</string>
+    <string name="shimmer_button_infinite_anim">shimmer button infinite animation</string>
 
 </resources>
