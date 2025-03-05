@@ -9,8 +9,20 @@ enum class CountryEnum(private val code: String, private val countryNameRes: Int
     US("US", R.string.usa, R.drawable.ic_flag_us, "+1", 14);
 
     companion object {
-        fun getCountryByCode(code: String): CountryEnum? {
-            return entries.find { it.code == code }
+        fun getCountryByCode(code: String): Country {
+            return entries.find { it.code == code }?.toDomainModel() ?: BY.toDomainModel()
+        }
+
+        fun getDefaultCountry(): Country {
+            return BY.toDomainModel()
+        }
+
+        fun provideEntries(): List<Country> {
+            val countries = mutableListOf<Country>()
+            entries.forEach { entry ->
+                countries.add(entry.toDomainModel())
+            }
+            return countries
         }
     }
 

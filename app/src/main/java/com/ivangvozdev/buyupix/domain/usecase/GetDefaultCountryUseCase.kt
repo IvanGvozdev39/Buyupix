@@ -5,6 +5,6 @@ import com.ivangvozdev.buyupix.domain.model.Country
 
 class GetDefaultCountryUseCase {
     operator fun invoke(): Country {
-        return CountryEnum.BY.toDomainModel()
+        return CountryEnum.getDefaultCountry()
     }
 }

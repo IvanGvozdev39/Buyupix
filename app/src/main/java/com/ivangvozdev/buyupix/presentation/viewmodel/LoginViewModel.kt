@@ -78,9 +78,7 @@ class LoginViewModel @Inject constructor(
             }
 
             val country = getCountryByCodeUseCase(code)
-            if (country != null) {
-                _selectedCountry.value = country
-            }
+            _selectedCountry.value = country
         }
     }
 

@@ -19,7 +19,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun CountryList() {
-    val countries = remember { CountryEnum.entries.toList() }
+    val countries = remember { CountryEnum.provideEntries() }
 
     val offsetY = useSlideInAnimation(initialOffset = -200f)
 
@@ -32,8 +32,8 @@ fun CountryList() {
 
     ) {
         items(countries,
-            key = { country -> country.toDomainModel().code }) { country ->
-            CountryItem(country = country.toDomainModel())
+            key = { country -> country.code }) { country ->
+            CountryItem(country = country)
         }
     }
 }
