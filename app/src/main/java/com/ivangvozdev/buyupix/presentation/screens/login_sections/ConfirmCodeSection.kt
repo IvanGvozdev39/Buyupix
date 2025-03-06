@@ -1,6 +1,5 @@
 package com.ivangvozdev.buyupix.presentation.screens.login_sections
 
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
@@ -140,7 +139,6 @@ fun ConfirmCodeSection(navController: NavController, viewModel: LoginViewModel =
                             code = inputCode,
                             onSuccess = {
                                 isLoading = false
-                                Log.d("afawfwegsg", "Authorized successfully")
                                 navController.navigate(route = Screen.NoSubscriptionsScreen.route)
                             },
                             onError = { message ->
@@ -174,7 +172,6 @@ fun ConfirmCodeSection(navController: NavController, viewModel: LoginViewModel =
                                 else -> inputCode[index]
                             }
 
-//                            val backgroundColor = if (index == cursorPosition) Gray85 else Gray90
                             val backgroundColor = when {
                                 isLoading && index == loadingIndex -> Gray85 // Loading-like animation
                                 isLoading -> Gray90
