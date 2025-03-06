@@ -50,7 +50,6 @@ import com.ivangvozdev.buyupix.ui.theme.Gray85
 import com.ivangvozdev.buyupix.ui.theme.Gray90
 import com.ivangvozdev.buyupix.ui.theme.White100
 import com.ivangvozdev.buyupix.ui.theme.robotoFamily
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 
 @Composable
@@ -83,7 +82,7 @@ fun ConfirmCodeSection(navController: NavController, viewModel: LoginViewModel =
 
     LaunchedEffect(isLoading) {
         while (isLoading) {
-            while (loadingIndex < 6) {
+            repeat((0 until 6).count()) {
                 delay(200L)
                 loadingIndex++
             }
@@ -92,10 +91,8 @@ fun ConfirmCodeSection(navController: NavController, viewModel: LoginViewModel =
     }
 
     LaunchedEffect(showErrorToast) {
-        coroutineScope {
             delay(5000)
             showErrorToast = false
-        }
     }
 
     Column(
