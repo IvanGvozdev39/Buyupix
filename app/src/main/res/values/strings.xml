@@ -10,6 +10,10 @@
     <string name="continue_btn">Continue</string>
     <string name="verification_failed">Verification failed: </string>
     <string name="toast_alpha_anim">Toast alpha animation</string>
+    <string name="code">Code</string>
+    <string name="enter_the_code_you_received">Enter the code you received</string>
+    <string name="no_code_received">No code received?</string>
+    <string name="resend_the_code_in">Resend the code in</string>
 
     <string name="flag">flag</string>
     <string name="arrow_left">arrow left</string>

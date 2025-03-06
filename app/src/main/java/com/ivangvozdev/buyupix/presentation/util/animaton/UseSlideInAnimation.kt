@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 fun useSlideInAnimation(
     initialOffset: Float,
     targetOffset: Float = 0f,
-    durationMillis: Int = 100,
+    durationMillis: Int = 120,
     easing: Easing = LinearEasing
 ): State<Float> {
     val isAnimated = remember { mutableStateOf(false) }
