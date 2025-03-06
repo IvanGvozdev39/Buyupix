@@ -15,6 +15,7 @@ import com.ivangvozdev.buyupix.domain.usecase.GetCountryByCodeUseCase
 import com.ivangvozdev.buyupix.domain.usecase.GetDefaultCountryUseCase
 import com.ivangvozdev.buyupix.domain.usecase.VerifyCodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -48,7 +49,32 @@ class LoginViewModel @Inject constructor(
     val continueButtonEnabled: StateFlow<Boolean> get() = _continueButtonEnabled
 
     private val _toastMessage = MutableStateFlow<String?>(null)
-    val toastMessage: MutableStateFlow<String?> get() = _toastMessage
+    val toastMessage: StateFlow<String?> get() = _toastMessage
+
+
+    //ConfirmCodeSection
+    private val _remainingTimeSecs = MutableStateFlow(30)
+    val remainingTimeSecs: StateFlow<Int> get() = _remainingTimeSecs
+
+    private val _timerActive = MutableStateFlow(false)
+    val timerActive: StateFlow<Boolean> get() = _timerActive
+
+    private fun startCodeResendTimer() {
+        viewModelScope.launch {
+            while (_remainingTimeSecs.value > 0 && _timerActive.value) {
+                delay(1000L)
+                _remainingTimeSecs.value--
+            }
+            _timerActive.value = false
+        }
+    }
+
+    fun restartCodeResendTimer() {
+        _remainingTimeSecs.value = 30
+        _timerActive.value = true
+        startCodeResendTimer()
+    }
+
 
     private fun clearInput() {
         _inputNumber.value = ""
@@ -91,7 +117,7 @@ class LoginViewModel @Inject constructor(
         moveToConfirmCode()
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)
-            .setTimeout(60L, TimeUnit.SECONDS)
+            .setTimeout(120L, TimeUnit.SECONDS)
             .setActivity(activity)
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {

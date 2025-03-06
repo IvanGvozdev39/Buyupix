@@ -20,6 +20,6 @@ fun LoginScreen(
     when(currentStep) {
         LoginStage.ENTER_PHONE -> EnterPhoneSection()
         LoginStage.SELECT_COUNTRY -> SelectCountrySection()
-        LoginStage.CONFIRM_CODE -> ConfirmCodeSection()
+        LoginStage.CONFIRM_CODE -> ConfirmCodeSection(navController)
     }
 }

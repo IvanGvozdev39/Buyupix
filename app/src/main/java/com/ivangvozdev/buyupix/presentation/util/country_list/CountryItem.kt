@@ -1,4 +1,4 @@
-package com.ivangvozdev.buyupix.presentation.util
+package com.ivangvozdev.buyupix.presentation.util.country_list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

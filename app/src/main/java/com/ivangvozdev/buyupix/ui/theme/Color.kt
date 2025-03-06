@@ -6,6 +6,7 @@ val Black5 = Color(0xFF1A1B1E)
 val White100 = Color(0xFFfafbfc)
 val Gray50 = Color(0xFF787E8A)
 val Gray90 = Color(0xFFedeff3)
+val Gray85 = Color(0xFFE0E4E7)
 val Gray80 = Color(0xFFdfdfe1)
 val Blue90 = Color(0xFF3983ec)
 
