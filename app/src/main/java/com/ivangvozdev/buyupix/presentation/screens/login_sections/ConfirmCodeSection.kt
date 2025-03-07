@@ -76,8 +76,10 @@ fun ConfirmCodeSection(navController: NavController, viewModel: LoginViewModel =
 
 
     LaunchedEffect(Unit) {
-        if (!timerActive)
-            viewModel.restartCodeResendTimer()
+        if (!timerActive) {
+            viewModel.resetCodeResendTimer()
+            viewModel.startCodeResendTimer()
+        }
     }
 
     LaunchedEffect(isLoading) {
@@ -223,7 +225,8 @@ fun ConfirmCodeSection(navController: NavController, viewModel: LoginViewModel =
                     enabled = !timerActive,
                     onClick = {
                         if (activity != null) {
-                            viewModel.restartCodeResendTimer()
+                            viewModel.resetCodeResendTimer()
+                            viewModel.startCodeResendTimer()
                             viewModel.sendVerificationCode(
                                 phoneNumber = viewModel.selectedCountry.value.phoneCode + viewModel.inputNumber.value,
                                 activity = activity
