@@ -59,7 +59,7 @@ class LoginViewModel @Inject constructor(
     private val _timerActive = MutableStateFlow(false)
     val timerActive: StateFlow<Boolean> get() = _timerActive
 
-    private fun startCodeResendTimer() {
+    fun startCodeResendTimer() {
         viewModelScope.launch {
             while (_remainingTimeSecs.value > 0 && _timerActive.value) {
                 delay(1000L)
@@ -69,10 +69,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun restartCodeResendTimer() {
+    fun resetCodeResendTimer() {
         _remainingTimeSecs.value = 30
         _timerActive.value = true
-        startCodeResendTimer()
     }
 
 
@@ -126,6 +125,7 @@ class LoginViewModel @Inject constructor(
 
                 override fun onVerificationFailed(e: FirebaseException) {
                     moveToEnterPhone()
+                    resetCodeResendTimer()
                     triggerFailedValidationToast(e.message ?: "Verification failed")
                 }
 
